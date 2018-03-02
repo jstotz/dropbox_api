@@ -39,13 +39,17 @@ module DropboxApi::Endpoints::Files
     #   an additional timestamp, provided by Dropbox desktop clients, mobile
     #   clients, and API apps of when the file was actually created or
     #   modified.
+    # @option options property_groups [Array] A list of file properties which
+    #   will be applied immediately upon upload. See dropbox http documentation
+    #   for formatting details.
     # @see DropboxApi::Metadata::WriteMode
     add_endpoint :upload do |path, content, options = {}|
       validate_options([
         :mode,
         :autorename,
         :client_modified,
-        :mute
+        :mute,
+        :property_groups
       ], options)
 
       options[:mode] = build_write_mode_param(options[:mode]) if options[:mode]

@@ -6,6 +6,7 @@ module DropboxApi::Endpoints::Files
     ErrorType   = DropboxApi::Errors::ListFolderError
 
     include DropboxApi::Endpoints::OptionsValidator
+    include DropboxApi::Endpoints::PropertyGroupsFormatter
 
     # A way to quickly get a cursor for the folder's state. Unlike
     # {DropboxApi::API#list_folder}, this doesn't return any entries. This
@@ -25,17 +26,22 @@ module DropboxApi::Endpoints::Files
     #   {DropboxApi::Metadata::DeletedMetadata} will be returned for deleted
     #   file or folder, otherwise {DropboxApi::Errors::LookupError} will be
     #   returned. The default for this field is +false+.
+    # @option include_property_groups [Array or String] If included, will
+    #   include specified property groups in results. We auto-format this
+    #   so either a String or list of strings will work.
     add_endpoint :list_folder_get_latest_cursor do |options = {}|
       validate_options([
         :path,
         :recursive,
         :include_media_info,
         :include_deleted,
-        :include_has_explicit_shared_members
+        :include_has_explicit_shared_members,
+        :include_property_groups
       ], options)
       options[:recursive] ||= false
       options[:include_media_info] ||= false
       options[:include_deleted] ||= false
+      format_property_groups(options)
 
       perform_request options
     end

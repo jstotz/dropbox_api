@@ -15,6 +15,7 @@ module DropboxApi::Metadata
     field :path_display, String
     field :id, String
     field :sharing_info, DropboxApi::Metadata::FolderSharingInfo, :optional
+    field :property_groups, Object, :optional
 
     def to_hash
       super.merge(".tag" => "folder")

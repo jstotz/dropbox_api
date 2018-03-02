@@ -6,6 +6,7 @@ module DropboxApi::Endpoints::Files
     ErrorType   = DropboxApi::Errors::GetMetadataError
 
     include DropboxApi::Endpoints::OptionsValidator
+    include DropboxApi::Endpoints::PropertyGroupsFormatter
 
     # Returns the metadata for a file or folder.
     #
@@ -20,8 +21,12 @@ module DropboxApi::Endpoints::Files
     # @option include_deleted [Boolean] If `true`, DeletedMetadata will be
     #   returned for deleted file or folder, otherwise LookupError.not_found
     #   will be returned. The default for this field is False.
+    # @option include_property_groups [Array or String] If included, will
+    #   include specified property groups in results. We auto-format this
+    #   so either a String or list of strings will work.
     add_endpoint :get_metadata do |path, options = {}|
-      validate_options([:include_media_info, :include_deleted], options)
+      validate_options([:include_media_info, :include_deleted, :include_property_groups], options)
+      format_property_groups(options)
 
       perform_request(options.merge({
         :path => path

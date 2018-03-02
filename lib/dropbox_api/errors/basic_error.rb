@@ -44,6 +44,7 @@ module DropboxApi::Errors
   class EmailUnverifiedError < BasicError; end
   class FileAncestorConflictError < BasicError; end
   class FileConflictError < BasicError; end
+  class FilePropertiesError < BasicError; end
   class FolderConflictError < BasicError; end
   class GroupDeletedError < BasicError; end
   class GroupNotOnTeamError < BasicError; end
